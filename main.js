@@ -8,8 +8,13 @@ document.addEventListener("mousemove", function (e) {
   mousey = e.clientY;
 })
 
-// returns random inclusive integers
+//returns random numbers
 function rand(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+// returns random inclusive integers
+function randInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -40,12 +45,14 @@ function paddle(x,y,l,h,color){
 }
 
 
-//create ball
-function Ball(x,y,size,dx,dy,color) {
+//constructor for 'Ball'
+function Ball(x,y,size,dir,v,color) {
   this.x = x;
   this.y = y;
-  this.dx = dy;
-  this.dy = dx;
+  this.dir = dir;
+  this.v = v;
+  this.dx = Math.sin(this.dir)*this.v;
+  this.dy = Math.cos(this.dir)*this.v;
   this.size = size;
   this.color = color;
 
@@ -59,7 +66,7 @@ function Ball(x,y,size,dx,dy,color) {
   this.update = function () {
 
     //if in paddle, reverse x velocity
-    for (paddle of paddles) {
+    /*for (paddle of paddles) {
       if (this.x+this.size>paddle.x && this.x<paddle.x+paddle.l && this.y<paddle.y+paddle.h && this.y+this.size>paddle.y) {
         this.dx = -this.dx
       }
@@ -76,24 +83,26 @@ function Ball(x,y,size,dx,dy,color) {
       this.y = c.height/2;
       this.dx = rand(0,1) ? rand(3,6) : rand(-6,-3); // TODO: make it not just integer
       this.dy = rand(-400,400)/50;
-    }
+    }*/
 
-    //update velocity
+    //update ball position
+    this.dy = Math.sin(this.dir)*this.v;
+    this.dx = Math.cos(this.dir)*this.v;
     this.x += this.dx;
     this.y += this.dy;
 
-    //draw
+    //draw the ball
     this.draw();
   }
 }
 
 //create paddles
 var paddles = [];
-paddles.push(new paddle(450,c.width/2,20,70,"green"));
-paddles.push(new paddle(30,c.width/2,20,70,"red"));
+paddles.push(new paddle(450,c.width/2-35,20,70,"pink"));
+paddles.push(new paddle(30,c.width/2-35,20,70,"#ABCDEF"));
 
 //create ball
-var ball = new Ball(5,5,10,0,0,'blue');
+var ball = new Ball(c.width/2,c.height/2,10,rand(0,2*Math.PI),rand(3,8),'blue');
 
 //game loop
 function loop() {
