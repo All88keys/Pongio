@@ -93,7 +93,7 @@ paddles.push(new paddle(450,c.width/2,20,70,"green"));
 paddles.push(new paddle(30,c.width/2,20,70,"red"));
 
 //create ball
-var ball = new ball(5,5,10,0,0,'blue');
+var ball = new Ball(5,5,10,0,0,'blue');
 
 //game loop
 function loop() {
