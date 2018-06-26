@@ -82,7 +82,7 @@ function Ball(x,y,size,dir,v,color) {
     if (this.x<0 || this.x + this.size >c.width || this.dx == 0) {
       this.x = c.width/2;
       this.y = c.height/2;
-      this.dx = rand(0,1) ? rand(3,6) : rand(-6,-3); // TODO: make it not just integer
+      this.dx = rand(0,1) ? rand(3,6) : rand(-6,-3);
       this.dy = rand(-400,400)/50;
     }*/
 
