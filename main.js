@@ -1,11 +1,10 @@
-var c = document.getElementById("canvas");
-var ctx = c.getContext("2d");
-
-var mousex;
-var mousey;
+let c = document.getElementById("canvas");
+let ctx = c.getContext("2d");
+let mouseX;
+let mouseY;
 document.addEventListener("mousemove", function (e) {
-  mousex = e.clientX;
-  mousey = e.clientY;
+  mouseX = e.clientX;
+  mouseY = e.clientY;
 })
 
 //returns random numbers
@@ -22,17 +21,19 @@ function randInt(min, max) {
 
 
 //create paddle
-function paddle(x,y,l,h,color){
+function Paddle(x,y,l,h,color){
   this.x = x;
   this.y = y;
   this.l = l;
-  this.dy = 0;
   this.h = h;
+  this.dy = 0;//// TODO: Add this.oldY to calculate this, to change the ball speed when it hits the paddle.
   this.color = color;
+  this.corners = function(){ //0:top left, 1:top right, 2:bottom left, 3:bottom right
+    return [[this.x,this.y],[this.x+this.l,this.y],[this.x,this.y+this.h],[this.x+this.l,this.y+this.h]];
+  }
   this.update = function(){
-
     //move paddle to mouse location
-    this.y = mousey-this.h/2;
+    this.y = mouseY-this.h/2;
 
     //draw paddle
     this.draw();
@@ -97,12 +98,12 @@ function Ball(x,y,size,dir,v,color) {
 }
 
 //create paddles
-var paddles = [];
-paddles.push(new paddle(450,c.width/2-35,20,70,"pink"));
-paddles.push(new paddle(30,c.width/2-35,20,70,"#ABCDEF"));
+let paddles = [];
+paddles.push(new Paddle(450,c.width/2-35,20,70,"pink"));
+paddles.push(new Paddle(30,c.width/2-35,20,70,"#ABCDEF"));
 
 //create ball
-var ball = new Ball(c.width/2,c.height/2,10,rand(0,2*Math.PI),rand(3,8),'blue');
+let ball = new Ball(c.width/2,c.height/2,10,rand(0,Math.PI/4 ),rand(3,8),'blue');
 
 //game loop
 function loop() {
